@@ -11,7 +11,7 @@
 #define CAP_THRESHOLD   895
 #define DEBOUNCE        250
 
-uint8_t pads[] = {3, 2, 0, 1, 12, 6, 9, 10};
+uint8_t pads[] = {3, 2, 0, 1, 6, 9, 10};
 uint8_t numberOfPads = sizeof(pads)/sizeof(uint8_t);
 
 ////////////////////////////////////////////////////////////////////////////
@@ -29,9 +29,6 @@ void takeAction(uint8_t pad) {
       break;
     case 1: // A7
       Serial.println("1");
-      break;
-    case 12:
-      Serial.println("12");
       break;
     case 6: // A1
       Serial.println("6");
