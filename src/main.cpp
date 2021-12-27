@@ -65,17 +65,23 @@ void setup() {
 
 ////////////////////////////////////////////////////////////////////////////
 void loop() {
-  // Loop over every pad.
-  for (int i=0; i<numberOfPads; i++) {
+    // Print cap touch reading on serial port.
+  Serial.print(CircuitPlayground.readCap(1));
+  Serial.print(',');
+  Serial.print(CircuitPlayground.readCap(2));
+  Serial.print(',');
+  Serial.println(CircuitPlayground.readCap(3));
+  // // Loop over every pad.
+  // for (int i=0; i<numberOfPads; i++) {
     
-    // Check if pad is touched.
-    if (capButton(pads[i])) {
+  //   // Check if pad is touched.
+  //   if (capButton(pads[i])) {
       
-      // Do something.
-      takeAction(pads[i]);
+  //     // Do something.
+  //     takeAction(pads[i]);
       
-      // But not too often.
-      delay(DEBOUNCE);
-    }
-  }
+  //     // But not too often.
+  //     delay(DEBOUNCE);
+  //   }
+  // }
 }
