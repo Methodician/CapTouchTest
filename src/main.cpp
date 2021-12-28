@@ -9,45 +9,34 @@
 #include <Adafruit_CircuitPlayground.h>
 
 #define CAP_THRESHOLD   895
+#define FLOOR_THRESHOLD 50
 #define DEBOUNCE        250
 
-uint8_t pads[] = {3, 2, 0, 1, 6, 9, 10};
+uint8_t pads[] = {1, 2, 3};
 uint8_t numberOfPads = sizeof(pads)/sizeof(uint8_t);
 
 ////////////////////////////////////////////////////////////////////////////
-void takeAction(uint8_t pad) {
-  Serial.print("PAD "); Serial.print(pad); Serial.print(" says: ");
-  switch (pad) {
-    case 3: // A4
-      Serial.println("3");
-      break;
-    case 2: // A5
-      Serial.println("2");
-      break;
-    case 0: // A6
-      Serial.println("0");
-      break;
-    case 1: // A7
-      Serial.println("1");
-      break;
-    case 6: // A1
-      Serial.println("6");
-      break;
-    case 9: // A2
-      Serial.println("9");
-      break;
-    case 10: // A3
-      Serial.println("10");
-      break;
-    default:
-      Serial.println("THIS SHOULD NEVER HAPPEN.");
-  }
+void logExceedsMaximum(uint8_t pad) {
+  Serial.print("pad "); Serial.print(pad); Serial.println(" HIGH");
+}
+
+void logBelowMinimum(uint8_t pad) {
+  Serial.print("pad "); Serial.print(pad); Serial.println(" LOW");
 }
 
 ////////////////////////////////////////////////////////////////////////////
-boolean capButton(uint8_t pad) {
+boolean ceilingButton(uint8_t pad) {
   // Check if capacitive touch exceeds threshold.
   if (CircuitPlayground.readCap(pad) > CAP_THRESHOLD) {
+    return true;  
+  } else {
+    return false;
+  }
+}
+
+boolean floorButton(uint8_t pad) {
+  // Check if capacitive touch is below threshold.
+  if (CircuitPlayground.readCap(pad) < FLOOR_THRESHOLD) {
     return true;  
   } else {
     return false;
@@ -71,17 +60,28 @@ void loop() {
   Serial.print(CircuitPlayground.readCap(2));
   Serial.print(',');
   Serial.println(CircuitPlayground.readCap(3));
-  // // Loop over every pad.
+
+  // Loop over every pad.
   // for (int i=0; i<numberOfPads; i++) {
     
+
   //   // Check if pad is touched.
-  //   if (capButton(pads[i])) {
+  //   if (ceilingButton(pads[i])) {
       
   //     // Do something.
-  //     takeAction(pads[i]);
+  //     logExceedsMaximum(pads[i]);
       
   //     // But not too often.
-  //     delay(DEBOUNCE);
+  //     // delay(DEBOUNCE);
+  //   }
+
+  //   if(floorButton(pads[i])) {
+      
+  //     // Do something.
+  //     logBelowMinimum(pads[i]);
+      
+  //     // But not too often.
+  //     // delay(DEBOUNCE);
   //   }
   // }
 }
